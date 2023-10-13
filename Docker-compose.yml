@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  php-fpm:
+    container_name: php-fpm
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www/html/php-todo
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
