@@ -26,7 +26,7 @@ services:
     ports:
         - "54320:5432"
     networks:
-        - app-network
+        - app
     healthcheck:
         test: ["CMD", "pg_isready", "-U", "ckan"]
 
