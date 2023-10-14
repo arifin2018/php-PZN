@@ -13,6 +13,22 @@ services:
       - .:/var/www/html/php-todo
     networks:
       - app
+  
+  database:
+    image: postgres:14-alpine
+    container_name: database
+    restart: unless-stopped
+    environment:
+        POSTGRES_PASSWORD: secret
+        POSTGRES_DB: php-pzn
+    volumes:
+        - ./docker/postgres_data:/var/lib/postgresql/data
+    ports:
+        - "54320:5432"
+    networks:
+        - app-network
+    healthcheck:
+        test: ["CMD", "pg_isready", "-U", "ckan"]
 
 networks:
   app:
