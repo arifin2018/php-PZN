@@ -8,9 +8,23 @@ require_once(dirname(__FILE__) . "/../Repository/TodolistRepository.php");
 class TodolistRepositoryImpl implements TodolistRepository{
 
     private array $todoList = array();
+    private PDO $pdo;
+
+    public function __construct(PDO $connection)
+    {
+        $this->pdo = $connection;
+    }
+
 
     public function save(TodoList $todoList): void{
-        $this->todoList[count($this->todoList)] = $todoList->getTodo();
+        $connection = $this->pdo;
+        $sql = <<<SQL
+            INSERT INTO todolist(todo) VALUES(?)
+        SQL;
+
+        $connection->prepare($sql)->execute([
+            $todoList->getTodo()
+        ]);
     }
 
     public function remove(int $number): bool{

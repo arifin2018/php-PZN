@@ -1,8 +1,9 @@
-create sequence todolist_id_seq
-
 CREATE TABLE todolist(
-    id INT unique PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     todo varchar(255) NOT NULL
 );
 
-show tables;
+select * from todolist;
+
+SELECT *
+FROM pg_catalog.pg_tables
