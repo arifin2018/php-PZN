@@ -24,7 +24,7 @@ services:
     volumes:
         - ./docker/postgres_data:/var/lib/postgresql/data
     ports:
-        - "54320:5432"
+        - "5432:5432"
     networks:
         - app
     healthcheck:

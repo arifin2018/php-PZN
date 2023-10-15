@@ -1,8 +1,8 @@
 <?php
 
 function getConnection(){
-    $host="localhost";
-    $port=54320;
+    $host="database";
+    $port=5432;
     $database="php-pzn";
     $username="postgres";
     $password="secret";
