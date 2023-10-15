@@ -2,32 +2,49 @@ FROM php:8.2-fpm
 
 WORKDIR /var/www/html/php-todo
 
-RUN apt-get update -y && apt-get install -y openssl zip unzip git
+RUN apt-get update
+
+RUN set -eux; \
+    apt-get upgrade -y; \
+    apt-get install -y\
+        libzip-dev \
+        zip \
+        unzip \
+        supervisor \
+        git \
+        zlib1g-dev \
+        curl \
+        libmemcached-dev \
+        libz-dev \
+        libpq-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libwebp-dev \
+        libxpm-dev \
+        libmcrypt-dev \
+        libonig-dev; \
+        rm -rf /var/lib/apt/lists/*
+
+RUN apt-get install autoconf
+
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev
-RUN docker-php-ext-install pdo pdo_mysql
-RUN docker-php-ext-install mbstring
 
-# Add user for laravel application
-# RUN groupadd -g 1000 www-data
-# RUN useradd -u 1000 -ms /bin/bash -g www-data www-data
+RUN docker-php-ext-install \
+        gd pdo pdo_pgsql pdo_mysql zip sockets bcmath opcache\
+    && docker-php-ext-enable \
+        gd pdo pdo_pgsql pdo_mysql zip sockets bcmath opcache
 
-# WORKDIR /var/www/html/php-todo
-COPY . /var/www/html/php-todo
-RUN composer install 
+RUN usermod -u 1000 www-data
+RUN rm -rf /var/cache/apk/*
+ADD . /var/www/php-todo
+RUN chown -R www-data:www-data /var/www/php-todo
+RUN chmod -R 777 /var/www/php-todo
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www/html/php-todo
-RUN chown -R www-data:www-data /var/www/html/php-todo
-
-# Change current user to www
 USER www-data
 
-# CMD php artisan serve --host=0.0.0.0
-EXPOSE 9000                     
+
+EXPOSE 9000
 CMD ["php-fpm"]
