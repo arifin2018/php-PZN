@@ -4,6 +4,7 @@ use Entity\TodoList;
 use Repository\TodolistRepository;
 
 require_once(dirname(__FILE__) . "/../Repository/TodolistRepository.php");
+require_once(dirname(__FILE__) . "/../Entity/TodoList.php");
 
 class TodolistRepositoryImpl implements TodolistRepository{
 
@@ -59,6 +60,19 @@ class TodolistRepositoryImpl implements TodolistRepository{
     }
 
     public function findAll(): array{
+        $connection = $this->pdo;
+        $sql = <<<SQL
+            select * from todolist
+        SQL;
+
+        $data = $connection->prepare($sql);
+        $data->execute();
+        $result = [];
+        foreach ($data as $key => $value) {
+            $result[] = new TodoList($value['todo'],$value['id']);
+        }
+        print_r($result);
+        die;
         return $this->todoList;
     }
 }

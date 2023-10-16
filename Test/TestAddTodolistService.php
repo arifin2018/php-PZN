@@ -16,6 +16,5 @@ function testAddTodolistService():void {
     $todolistServices = new TodolistServiceImpl($todolistRepository);
     $todolistServices->addTodoList("AYAM");
     $todolistServices->addTodoList("TOKAI");
-    $todolistServices->addTodoList("BURUNG");
 }
 testAddTodolistService();
