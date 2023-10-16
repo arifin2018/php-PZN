@@ -62,7 +62,7 @@ class TodolistRepositoryImpl implements TodolistRepository{
     public function findAll(): array{
         $connection = $this->pdo;
         $sql = <<<SQL
-            select * from todolist
+            select id,todo from todolist
         SQL;
 
         $data = $connection->prepare($sql);
@@ -71,8 +71,8 @@ class TodolistRepositoryImpl implements TodolistRepository{
         foreach ($data as $key => $value) {
             $result[] = new TodoList($value['todo'],$value['id']);
         }
-        print_r($result);
-        die;
+        $this->todoList = $result;
+        
         return $this->todoList;
     }
 }

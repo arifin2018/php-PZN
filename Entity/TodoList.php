@@ -4,10 +4,10 @@ namespace Entity;
 
 class TodoList{
     private string $todo;
-    private int $id;
+    private ?int $id;
 
 
-    public function __construct(string $todo = "", int $id = null)
+    public function __construct(string $todo = "", ?int $id = null)
     {
         $this->todo = $todo;
         $this->id = $id;
