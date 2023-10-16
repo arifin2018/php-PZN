@@ -28,19 +28,34 @@ class TodolistRepositoryImpl implements TodolistRepository{
     }
 
     public function remove(int $number): bool{
-        $number -= 1;
+        // $number -= 1;
 
-        if ($number >= count($this->todoList) ) {
+        // if ($number >= count($this->todoList) ) {
+        //     return false;
+        // }
+
+        // for ($i=$number; $i < count($this->todoList)-1; $i++) { 
+        //     $this->todoList[$i] = $this->todoList[$i+1];
+        // }
+
+        // unset($this->todoList[count($this->todoList)-1]);
+
+        $connection = $this->pdo;
+        $sql = <<<SQL
+            DELETE FROM todolist WHERE id=?
+        SQL;
+
+        $data = $connection->prepare($sql);
+        $data->execute([
+            $number
+        ]);
+
+        if ($data->rowCount() > 0) {
+            return true;
+        }else{
             return false;
         }
 
-        for ($i=$number; $i < count($this->todoList)-1; $i++) { 
-            $this->todoList[$i] = $this->todoList[$i+1];
-        }
-
-        unset($this->todoList[count($this->todoList)-1]);
-
-        return true;
     }
 
     public function findAll(): array{

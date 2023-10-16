@@ -32,9 +32,9 @@ class TodolistServiceImpl implements TodolistService{
 
     public function removeTodoList(int $number):void{
         if ($this->todolistRepository->remove($number)) {
-            echo "Berhasil menghapus todolist";
+            echo "Berhasil menghapus todolist" . PHP_EOL;
         }else{
-            echo "Gagal menghapus todolist";
+            echo "Gagal menghapus todolist" . PHP_EOL;
         }
     }
 }
