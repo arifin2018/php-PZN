@@ -1,1 +1,25 @@
-{}
+{
+    "name": "root/php-todo",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\PhpTodo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Root\\PhpTodo\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "arifin"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    }
+}
