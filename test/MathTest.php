@@ -40,4 +40,13 @@ class MathTest extends TestCase{
         $this->assertSame($expected, $math->getTotal($expected));
     }
 
+    /**
+     * @test
+    */
+    public function randomInt():void {
+        $math = new Math();
+        $math->randomInt();
+        $this->assertSame(null,("binggung expect nya apa"), $math->getTotal());
+    }
+
 }

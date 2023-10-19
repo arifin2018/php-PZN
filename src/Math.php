@@ -15,4 +15,8 @@ class Math{
     public function getTotal():int {
         return $this->total;
     }
+
+    public function randomInt():void {
+        $this->total += random_int(0, 99999);
+    }
 }

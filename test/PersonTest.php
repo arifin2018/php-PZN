@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 class PersonTest extends TestCase{
     // ./vendor/bin/phpunit --filter PersonTest::testSayHelloSuccess test/PersonTest.php
     // ./vendor/bin/phpunit --filter PersonTest::testSayHelloFailed test/PersonTest.php
+    // ./vendor/bin/phpunit --filter PersonTest::sayGoodbye test/PersonTest.php
 
     public function testSayHelloSuccess(): void
     {
@@ -21,5 +22,15 @@ class PersonTest extends TestCase{
         $this->expectException(Exception::class);
         $person = new Person("Arifin");
         $person->sayHello(null);
+    }
+
+    /**
+     * @test
+    */
+    public function sayGoodbye(): void
+    {
+        $this->expectOutputString("selamat tinggal Azriel");
+        $person = new Person("Arifin");
+        $person->sayGoodbye("Azriel");
     }
 }

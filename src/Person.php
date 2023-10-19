@@ -17,6 +17,8 @@ class Person{
             return "hai $name,nama saya $this->name";
         }
     }
-}
 
-print_r((new Person("arifin"))->sayHello(null));
+    public function sayGoodbye(?String $name):void {
+        echo "selamat tinggal $name";
+    }
+}
