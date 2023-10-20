@@ -11,17 +11,23 @@ class PersonTest extends TestCase{
     // ./vendor/bin/phpunit --filter PersonTest::testSayHelloFailed test/PersonTest.php
     // ./vendor/bin/phpunit --filter PersonTest::sayGoodbye test/PersonTest.php
 
+    private Person $person;
+
+    protected function setUp(): void
+    {
+        $this->person = new Person("Arifin");
+    }
+
     public function testSayHelloSuccess(): void
     {
-        $person = new Person("Arifin");
-        Assert::assertEquals("hai Azriel,nama saya Arifin",$person->sayHello("Azriel"));
+        
+        Assert::assertEquals("hai Azriel,nama saya Arifin",$this->person->sayHello("Azriel"));
     }
 
     public function testSayHelloFailed(): void
     {
         $this->expectException(Exception::class);
-        $person = new Person("Arifin");
-        $person->sayHello(null);
+        $this->person->sayHello(null);
     }
 
     /**
@@ -30,7 +36,6 @@ class PersonTest extends TestCase{
     public function sayGoodbye(): void
     {
         $this->expectOutputString("selamat tinggal Azriel");
-        $person = new Person("Arifin");
-        $person->sayGoodbye("Azriel");
+        $this->person->sayGoodbye("Azriel");
     }
 }
