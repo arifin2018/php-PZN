@@ -25,7 +25,7 @@ class MathTest extends TestCase{
     public function testSum(array $a, int $expected):void {
         $math = new Math();
         $math->sum($a);
-        $this->assertSame($expected, $math->getTotal($expected));
+        $this->assertSame($expected, $math->getTotal());
     }
 
     /**
@@ -37,7 +37,7 @@ class MathTest extends TestCase{
     public function testSum2(array $a, int $expected):void {
         $math = new Math();
         $math->sum($a);
-        $this->assertSame($expected, $math->getTotal($expected));
+        $this->assertSame($expected, $math->getTotal());
     }
 
     // /**
