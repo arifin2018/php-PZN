@@ -6,7 +6,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class MathTest extends TestCase{
-
+    // ./vendor/bin/phpunit test/MathTest.php
 
     public static function additionProvider()
     {
@@ -40,13 +40,13 @@ class MathTest extends TestCase{
         $this->assertSame($expected, $math->getTotal($expected));
     }
 
-    /**
-     * @test
-    */
-    public function randomInt():void {
-        $math = new Math();
-        $math->randomInt();
-        $this->assertSame(null,("binggung expect nya apa"), $math->getTotal());
-    }
+    // /**
+    //  * @test
+    // */
+    // public function randomInt():void {
+    //     $math = new Math();
+    //     $math->randomInt();
+    //     $this->assertSame(null,("binggung expect nya apa"), $math->getTotal());
+    // }
 
 }

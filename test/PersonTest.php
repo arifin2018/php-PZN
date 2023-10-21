@@ -10,12 +10,38 @@ class PersonTest extends TestCase{
     // ./vendor/bin/phpunit --filter PersonTest::testSayHelloSuccess test/PersonTest.php
     // ./vendor/bin/phpunit --filter PersonTest::testSayHelloFailed test/PersonTest.php
     // ./vendor/bin/phpunit --filter PersonTest::sayGoodbye test/PersonTest.php
+    // ./vendor/bin/phpunit test/PersonTest.php
 
     private Person $person;
 
+    /*
+        akan selalu di panggil sebelum unit test di panggil
+        contoh :
+        kita akan panggil `testSayHelloSuccess` sebelum panggil testSayHelloSuccess dia akan panggil function `setUp` dahulu
+    */
     protected function setUp(): void
     {
         $this->person = new Person("Arifin");
+    }
+
+    /**
+     * @before
+     * sama seperti setup yang bikin beda adalah
+     */
+    public function createPerson(): void
+    {
+        // $this->person = new Person("Arifin");
+    }
+
+    public function tearDown(): void{
+        echo "teardown";
+    }
+
+    /**
+     * @after
+     */
+    public function tearDownSayHelloSuccess(): void{
+        echo "after";
     }
 
     public function testSayHelloSuccess(): void
