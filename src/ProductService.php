@@ -1,4 +1,5 @@
 <?php
+namespace Root\PhpTodo;
 
 use Root\PhpTodo\Product;
 use Root\PhpTodo\ProductRepository;
