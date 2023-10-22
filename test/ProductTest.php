@@ -67,7 +67,7 @@ class ProductTest extends TestCase{
     }
 
     public function testRegisterFailed() :void {
-        // $this->expectException(Exception::class);
+        $this->expectException(Exception::class);
 
         $productInDB = new Product();
         $productInDB->setId(1);
@@ -78,5 +78,23 @@ class ProductTest extends TestCase{
         $product->setId(1);
 
         $this->productService->register($product);
+    }
+
+    public function testDeleteSuccess(): void
+    {
+        $product = new Product();
+        $product->setId(1);
+        
+        $this->productRepository->method("findById")->willReturn($product);
+
+        $this->productService->delete(1);
+        $this->assertTrue(true);
+    }
+
+    public function testDeleteFailed(): void
+    {
+        $this->expectException(Exception::class);
+        $this->productRepository->method("findById")->willReturn(null);
+        $this->productService->delete("1");
     }
 }

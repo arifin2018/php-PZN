@@ -16,4 +16,13 @@ class ProductService{
         }
         return $this->productRepository->save($product);
     }
+
+    public function delete(int $id):void {
+        $product = $this->productRepository->findById($id);
+        if ($product == null) {
+            throw new \Exception("Product is not found");
+        }
+
+        $this->productRepository->delete($product);
+    }
 }
