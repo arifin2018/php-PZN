@@ -2,6 +2,7 @@
 
 namespace Root\PhpTodo;
 
+use Exception;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -29,16 +30,53 @@ class ProductTest extends TestCase{
         $Product->setId(1);
         
         $Product2 = new Product();
-        $Product2->setId(22);
+        $Product2->setId(null);
 
         $map = [
             [1,  $Product],
-            [22,  $Product2]
+            [null,  $Product2]
         ];
 
         $this->productRepository->method('findById')->willReturnMap($map);
         
         $this->assertSame($Product, $this->productRepository->findById(1));
-        $this->assertSame($Product2, $this->productRepository->findById(22));
+        $this->assertSame($Product2, $this->productRepository->findById(null));
+    }
+    
+    public function testStubCallback(): void {
+        $this->productRepository->method('findById')->willReturnCallback(function (int $id){
+            $product = new Product();
+            $product->setId($id);
+            return $product;
+        });
+
+        $this->assertEquals(1,$this->productRepository->findById(1)->getId());
+    }
+
+    public function testRegisterSuccess():void {
+        $this->productRepository->method("findById")->willReturn(null);
+        $this->productRepository->method("save")->willReturnArgument(0);
+
+        $product = new Product();
+        $product->setId(1);
+        $product->setName("arifin");
+
+        $result = $this->productService->register($product);
+
+        $this->assertEquals($product->getId(), $result->getId());
+    }
+
+    public function testRegisterFailed() :void {
+        // $this->expectException(Exception::class);
+
+        $productInDB = new Product();
+        $productInDB->setId(1);
+
+        $this->productRepository->method("findById")->willReturn($productInDB);
+
+        $product = new Product();
+        $product->setId(1);
+
+        $this->productService->register($product);
     }
 }

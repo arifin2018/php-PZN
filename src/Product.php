@@ -3,7 +3,7 @@
 namespace Root\PhpTodo;
 final class Product
 {
-    private string $id, $name, $description;
+    private ?string $id, $name, $description;
     private int $price, $quantity;
 
 
@@ -18,7 +18,7 @@ final class Product
     /**
      * Set the value of id
      */
-    public function setId(string $id): self
+    public function setId(?string $id): self
     {
         $this->id = $id;
 
