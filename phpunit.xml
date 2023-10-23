@@ -14,4 +14,3 @@
         </testsuite>
     </testsuites>
 </phpunit>
-<!-- vendor/bin/phpunit --configuration phpunit.xml --testsuite counterStatic -->
