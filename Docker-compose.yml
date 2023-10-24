@@ -8,9 +8,9 @@ services:
       context: .
       dockerfile: dockerfile
     ports:
-      - "8080:80"
-      - "4433:443"
-      # - "9000:9000"
+      # - "8080:80"
+      # - "4433:443"
+      - "9000:9000"
     volumes:
       - .:/var/www/html/php-todo
     networks:
