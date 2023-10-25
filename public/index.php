@@ -4,11 +4,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // require_once(dirname(__FILE__) . "/../app/Apps/router.php");
 
 use Arifin\PHP\MVC\apps\router;
+use Arifin\PHP\MVC\controllers\HomeController;
 
-router::add('GET','/', 'HomeController', 'index');
+router::add('GET','/', HomeController::class, 'index');
+router::add('GET','/hello', HomeController::class, 'hello');
+router::add('GET','/world', HomeController::class, 'world');
 router::add('GET','/login', 'UserController', 'login');
 router::add('GET','/register', 'RegisterController', 'register');
-
 router::run();
 
 ?>

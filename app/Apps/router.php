@@ -9,7 +9,7 @@ class router{
 
     public static function add(string $method, string $path, string $controller, string $function): void
     {
-        self::$routes = [
+        self::$routes[] = [
             'method' => $method,
             'path' => $path,
             'controller' => $controller,
@@ -27,15 +27,15 @@ class router{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-        foreach (self::$routes as $key => $value) {
-            echo $value;
-            // if ($path == $value['path'] && $method == $value['method']) {
-            //     echo "CONTROLLER => ". $value['controller'] . PHP_EOL;
-            //     echo "FUNCTION => ".$value['function'] . PHP_EOL;
-            //     return;
-            // }
-        }
+        foreach (self::$routes as $key => $routes) {
+            if ($path == $routes['path'] && $method == $routes['method']) {
+                $controller = new $routes['controller'];
+                $nameFunction = $routes['function'];
 
+                $controller->$nameFunction();
+                return;
+            }
+        }
         http_response_code(404);
         echo "CONTROLLER NOT FOUND";
     }
