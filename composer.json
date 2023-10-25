@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "user\\arifin\\PHP\\MVC\\": "app"
+            "Arifin\\PHP\\MVC\\": "app"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "user\\arifin\\PHP\\MVC\\": "test"
+            "Arifin\\PHP\\MVC\\": "test"
         }
     }
 }
