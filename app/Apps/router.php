@@ -27,15 +27,18 @@ class router{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-        foreach (self::$routes as $key => $routes) {
-            if ($path == $routes['path'] && $method == $routes['method']) {
-                $controller = new $routes['controller'];
-                $nameFunction = $routes['function'];
 
-                $controller->$nameFunction();
-                return;
+        foreach (self::$routes as $key => $routes) {
+            $pattern = "#^". $routes['path'] ."$#";
+            // if ($path == $routes['path'] && $method == $routes['method']) {
+                if (preg_match($pattern, $path, $route) && $method == $routes['method']) {
+                    $controller = new $routes['controller'];
+                    $nameFunction = $routes['function'];
+
+                    $controller->$nameFunction();
+                    return;
+                }
             }
-        }
         http_response_code(404);
         echo "CONTROLLER NOT FOUND";
     }
