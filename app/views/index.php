@@ -6,6 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Arifin</h1>
+    <h1><?=$data['title']?></h1>
 </body>
 </html>

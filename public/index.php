@@ -5,12 +5,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Arifin\PHP\MVC\apps\router;
 use Arifin\PHP\MVC\controllers\HomeController;
+use Arifin\PHP\MVC\Middlewares\AuthMiddleware;
 
-router::add('GET','/', HomeController::class, 'index');
-router::add('GET','/hello', HomeController::class, 'hello');
+router::add('GET','/', 'Arifin\PHP\MVC\controllers\HomeController', 'index');
+router::add('GET','/product/([a-z]*)', HomeController::class, 'product');
+router::add('GET','/hello', HomeController::class, 'hello',[AuthMiddleware::class]);
 router::add('GET','/world', HomeController::class, 'world');
-router::add('GET','/login', 'UserController', 'login');
-router::add('GET','/register', 'RegisterController', 'register');
 router::run();
 
 ?>
