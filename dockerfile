@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install pdo pdo_mysql
 RUN docker-php-ext-install mbstring
 
+RUN a2enmod rewrite
 # Add user for laravel application
 # RUN groupadd -g 1000 www-data
 # RUN useradd -u 1000 -ms /bin/bash -g www-data www-data
