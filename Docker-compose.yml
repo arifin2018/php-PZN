@@ -13,8 +13,26 @@ services:
       # - "9000:9000"
     volumes:
       - .:/var/www/html/php-todo
+    depends_on:
+      - database
     networks:
       - app
+
+  database:
+    image: postgres:14-alpine
+    container_name: database
+    restart: unless-stopped
+    environment:
+        POSTGRES_PASSWORD: secret
+        POSTGRES_DB: php-pzn
+    volumes:
+        - ./docker/postgres_data:/var/lib/postgresql/data
+    ports:
+        - "5432:5432"
+    networks:
+        - app
+    healthcheck:
+        test: ["CMD", "pg_isready", "-U", "ckan"]
 
   # nginx:
   #   container_name: nginx-php-pzn
