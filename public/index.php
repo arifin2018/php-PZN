@@ -3,9 +3,9 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 // require_once(dirname(__FILE__) . "/../app/Apps/router.php");
 
-use Arifin\PHP\MVC\apps\router;
-use Arifin\PHP\MVC\controllers\HomeController;
-use Arifin\PHP\MVC\Middlewares\AuthMiddleware;
+use Arifin\PHP\MVC\app\apps\router;
+use Arifin\PHP\MVC\app\controllers\HomeController;
+use Arifin\PHP\MVC\app\Middlewares\AuthMiddleware;
 
 router::add('GET','/', 'Arifin\PHP\MVC\controllers\HomeController', 'index');
 router::add('GET','/product/([a-z]*)', HomeController::class, 'product');

@@ -1,6 +1,6 @@
 <?php 
 
-namespace Arifin\PHP\MVC\controllers;
+namespace Arifin\PHP\MVC\app\controllers;
 
 class Controllers{
 

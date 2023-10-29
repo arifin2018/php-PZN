@@ -1,6 +1,6 @@
 <?php 
 
-namespace Arifin\PHP\MVC\Middlewares;
+namespace Arifin\PHP\MVC\app\Middlewares;
 
 use Arifin\PHP\MVC\Middlewares\interfaces\Middleware;
 

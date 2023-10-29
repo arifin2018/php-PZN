@@ -1,9 +1,9 @@
 <?php 
 
-namespace Arifin\PHP\MVC\apps;
+namespace Arifin\PHP\MVC\app\Apps;
 // namespace app\Apps;
 
-class router{
+class Router{
 
     private static array $routes = [];
 
