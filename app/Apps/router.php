@@ -1,7 +1,6 @@
 <?php 
 
-namespace Arifin\PHP\MVC\app\Apps;
-// namespace app\Apps;
+namespace Arifin\PHP\MVC\Apps;
 
 class Router{
 
@@ -50,6 +49,11 @@ class Router{
         }
         http_response_code(404);
         echo "CONTROLLER NOT FOUND";
+    }
+
+    public static function ok(): string
+    {
+        return 'ok';
     }
 
 }
