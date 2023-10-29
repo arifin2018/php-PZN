@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev
-RUN docker-php-ext-install pdo pdo_mysql
+# RUN docker-php-ext-install pgsql pdo pdo_pgsql
+RUN apt-get install --no-install-recommends -y libpq-dev 
+RUN  docker-php-ext-install pdo pgsql pdo_pgsql 
 RUN docker-php-ext-install mbstring
 
 RUN a2enmod rewrite

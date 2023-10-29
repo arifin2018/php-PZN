@@ -7,13 +7,13 @@ class Database{
         return [
             'database'=>[
                 'test'=>[
-                    'url'=>"pgsql:host=database:3306;dbname=php-pzn-test",
-                    'username'=>'root',
+                    'url'=>"pgsql:host=database;port=5432;dbname=php-pzn",
+                    'username'=>'postgres',
                     'password'=>'secret',
                 ],
                 'prod'=>[
-                    'url'=>'pgsql:host=database:3306;dbname=php-pzn',
-                    'username'=>'root',
+                    'url'=>"pgsql:host=database;port=5432;dbname=php-pzn",
+                    'username'=>'postgres',
                     'password'=>'secret',
                 ],
             ]
