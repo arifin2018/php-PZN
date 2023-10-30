@@ -9,10 +9,7 @@ use PHPUnit\Framework\TestCase;
 class Databasetest extends TestCase{
     public function testDatabase(): void
     {
-        // print_r(DatabaseApp::getConnection());
         $connection = DatabaseApp::getConnection();
         self::assertNotNull($connection);
-        // $connection = Router::ok();
-        // self::assertEquals('ok',$connection);
     }
 }

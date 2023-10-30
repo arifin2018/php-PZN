@@ -5,11 +5,11 @@ namespace Arifin\PHP\MVC\controllers;
 class HomeController extends Controllers{
     public function index(): void
     {
-        $model = [
+        $data = [
             'title'=>'Belajar PHP MVC2',
             'content'=>'Belajar PHP MVC',
         ];
-        $this->view('index',$model);
+        $this->view('home/index',$data);
 
     }
     public function hello(): void
