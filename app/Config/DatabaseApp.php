@@ -22,4 +22,19 @@ class DatabaseApp{
 
         return self::$pdo;
     }
+
+    public static function beginTrasanction()
+    {
+        self::$pdo->beginTransaction();
+    }
+
+    public static function commitTransaction()
+    {
+        self::$pdo->commit();
+    }
+
+    public static function rollbackTransaction()
+    {
+        self::$pdo->rollBack();
+    }
 }
