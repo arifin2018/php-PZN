@@ -4,7 +4,8 @@ namespace Arifin\PHP\test\MVC\Repository;
 
 use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Domain\User;
-use Arifin\PHP\MVC\Repositories\UserRepository;
+use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
+use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
 use PHPUnit\Framework\TestCase;
 
 class UserRepositoriesTest extends TestCase{
@@ -13,7 +14,7 @@ class UserRepositoriesTest extends TestCase{
 
     public function setUp(): void
     {
-        $this->userRepository = new UserRepository(DatabaseApp::getConnection());
+        $this->userRepository = new UserRepositoryImpl(DatabaseApp::getConnection());
         $this->userRepository->deleteAll();
     }
 

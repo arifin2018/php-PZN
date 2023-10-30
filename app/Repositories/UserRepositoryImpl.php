@@ -3,9 +3,10 @@
 namespace Arifin\PHP\MVC\Repositories;
 
 use Arifin\PHP\MVC\Domain\User;
+use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
 use PDO;
 
-class UserRepository{
+class UserRepositoryImpl implements UserRepository{
     private PDO $connection;
 
     public function __construct(PDO $connection)
