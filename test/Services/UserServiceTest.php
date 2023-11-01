@@ -24,13 +24,11 @@ class UserServiceTest extends TestCase{
     public function testRegisterSuccess()
     {
         $request = new UserRegisterRequest();
-        $request->id = 1;
         $request->name = "arifin";
         $request->password = "password";
 
         $response = $this->userServices->register($request);
 
-        $this->assertSame($request->id, $response->user->id);
         $this->assertSame($request->name, $response->user->name);
         $this->assertTrue(password_verify($request->password, $response->user->password));
     }

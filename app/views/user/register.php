@@ -16,7 +16,7 @@
             <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/users/register">
                 <div class="form-floating mb-3">
                     <input name="id" type="text" class="form-control" id="id" placeholder="id">
-                    <label for="id">Id</label>
+                    <label for="id">id</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input name="name" type="text" class="form-control" id="name" placeholder="name">

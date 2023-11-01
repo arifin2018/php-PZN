@@ -16,12 +16,13 @@ router::add('GET','/product/([a-z]*)', HomeController::class, 'product');
 router::add('GET','/hello', HomeController::class, 'hello',[AuthMiddleware::class]);
 router::add('GET','/world', HomeController::class, 'world');
 
-router::add('GET','/user/register', UserController::class, 'register');
-router::add('POST','/user/register', UserController::class, 'postRegister');
+router::add('GET','/users/register', UserController::class, 'register');
+router::add('POST','/users/register', UserController::class, 'postRegister');
+router::add('GET','/users/login', UserController::class, 'login');
 router::run();
 
 ?>
-
+<!-- 
 <html>
     <table>
     <tr>
@@ -35,4 +36,4 @@ router::run();
     </tr>
     <?php } ?>
     </table>
-</html>
+</html> -->

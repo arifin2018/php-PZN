@@ -36,7 +36,7 @@ class UserServices{
             DatabaseApp::commitTransaction();
         } catch (Exception $e) {
             DatabaseApp::rollbackTransaction();
-            throw new $e->getMessage();
+            throw $e;
         }
 
         $response = new UserRegisterResponse();
@@ -46,8 +46,8 @@ class UserServices{
     
     private function validationUserRegisterRequest(UserRegisterRequest $request): void
     {
-        if ($request->id == null || $request->name == null | $request->password == null || trim($request->id) == "" || trim($request->name)== ""|| trim($request->password) == "") {
-            throw new Exception("request id name password can't be null");
+        if ($request->name == null | $request->password == null || trim($request->name)== ""|| trim($request->password) == "") {
+            throw new Exception("request name password can't be null");
         }
     }
 

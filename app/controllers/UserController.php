@@ -24,26 +24,30 @@ class UserController extends Controllers{
     {
         $data = [
             'title'=>'Register',
-            'error'=>'Register',
         ];
-        $this->view('/user/register',[
-            $data
-        ]);
+        $this->view('user/register',$data);
     }
 
     public function postRegister(): void
     {
         $request = new UserRegisterRequest();
+        $request->id = $_POST['id'];
         $request->name = $_POST['name'];
         $request->password = $_POST['password'];
-
+        $data = [
+            'title' => 'register new user',
+        ];
         try {
             $this->userService->register($request);
+            $this->redirect('/users/login');
         } catch (Exception $e) {
-            $this->view('Users/register',[
-                'title' => 'register new user',
-                'error' => $e->getMessage()
-            ]);
+            $data['error'] = $e->getMessage(); 
+            $this->view('user/register',$data);
         }
+    }
+
+    public function login(): void
+    {
+        $this->view('user/login',$data);
     }
 }
