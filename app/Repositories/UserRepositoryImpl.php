@@ -20,7 +20,7 @@ class UserRepositoryImpl implements UserRepository{
         $statment->execute([
             $user->id,
             $user->name,
-            $user->password
+            password_hash($user->password, PASSWORD_BCRYPT),
         ]);
         return $user;
     }
