@@ -4,6 +4,7 @@ namespace Arifin\PHP\MVC\controllers;
 
 use Arifin\PHP\MVC\Config\Database;
 use Arifin\PHP\MVC\Config\DatabaseApp;
+use Arifin\PHP\MVC\Model\UserLoginRequest;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
 use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
 use Arifin\PHP\MVC\Services\UserServices;
@@ -49,5 +50,19 @@ class UserController extends Controllers{
     public function login(): void
     {
         $this->view('user/login',$data);
+    }
+
+    public function postLogin(): void {
+        $request = new UserLoginRequest();
+        $request->id = $_POST['id'];
+        $request->password = $_POST['password'];
+
+        try {
+            $this->userService->login($request);
+            $this->redirect('/');
+        } catch (Exception $e) {
+            $data['error'] = $e->getMessage();
+            $this->view('user/login', $data);
+        }
     }
 }
