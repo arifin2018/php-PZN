@@ -46,6 +46,6 @@ class UserRepositoryImpl implements UserRepository{
 
     public function deleteAll(): void
     {
-        $this->connection->exec('delete from users');
+        $this->connection->exec('TRUNCATE users CASCADE');
     }
 }

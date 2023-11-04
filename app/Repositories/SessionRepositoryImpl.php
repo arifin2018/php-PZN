@@ -3,10 +3,10 @@
 namespace Arifin\PHP\MVC\Repositories;
 
 use Arifin\PHP\MVC\Domain\Session;
-use Arifin\PHP\MVC\Repositories\Implement\SessionsRepository;
+use Arifin\PHP\MVC\Repositories\Implement\SessionRepository;
 use PDO;
 
-class SessionRepositoryImpl implements SessionsRepository{
+class SessionRepositoryImpl implements SessionRepository{
     private PDO $pdo;
     public function __construct(PDO $pdo)
     {
@@ -21,10 +21,9 @@ class SessionRepositoryImpl implements SessionsRepository{
             $statment->closeCursor();
         }
     }
-    public function findById(int $id): Session{
-        $statment = $this->pdo->prepare("select id, users_id from sessions where id = ?");
+    public function findById(int $id): ?Session{
+        $statment = $this->pdo->prepare("select id, user_id from sessions where id = ?");
         $statment->execute([$id]);
-
         try {
             if ($row = $statment->fetch()) {
                 $sessions = new Session();
@@ -35,13 +34,13 @@ class SessionRepositoryImpl implements SessionsRepository{
         }finally {
             $statment->closeCursor();
         }
-        return new Session;
+        return null;
     }
     public function deleteById(int $id): void{
         $statment = $this->pdo->prepare("delete from sessions where id = ?");
         $statment->execute([$id]);
     }
     public function deleteAll(): void{
-        $this->pdo->exec("delete from sessions");
+        $this->pdo->exec("TRUNCATE sessions CASCADE");
     }
 }
