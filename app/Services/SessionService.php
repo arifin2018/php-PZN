@@ -36,10 +36,10 @@ class SessionService{
 
     public function current(): ?User
     {
-        $sessionId = $_COOKIE[self::$cookieName] ?? '';
+        $sessionId = $_COOKIE[self::$cookieName] ?? 0;
         $session = $this->sessionRepository->findById($sessionId);
         if ($session != null) {
-            return $this->userRepository->findById($session->id);
+            return $this->userRepository->findById($session->userId);
         }else{
             return null;
         }
