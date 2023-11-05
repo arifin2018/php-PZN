@@ -71,4 +71,10 @@ class UserController extends Controllers{
             Controllers::view('user/login', $data);
         }
     }
+
+    public function logout(): void
+    {
+        $this->sessionService->destroy();
+        $this->redirect('/');
+    }
 }

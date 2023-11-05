@@ -4,8 +4,11 @@ namespace Arifin\PHP\test\MVC\Controllers{
     use Arifin\PHP\MVC\Config\DatabaseApp;
     use Arifin\PHP\MVC\controllers\Controllers;
     use Arifin\PHP\MVC\controllers\UserController;
+    use Arifin\PHP\MVC\Domain\Session;
     use Arifin\PHP\MVC\Domain\User;
+    use Arifin\PHP\MVC\Repositories\Implement\SessionRepository;
     use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
+    use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
     use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
     use PHPUnit\Framework\MockObject\MockObject;
     use PHPUnit\Framework\TestCase;
@@ -13,15 +16,18 @@ namespace Arifin\PHP\test\MVC\Controllers{
     class UserControllerTest extends TestCase
     {
         // ./vendor/bin/phpunit test/Controllers/UserControllerTest.php
-        // ./vendor/bin/phpunit test/Controllers/UserControllerTest.php --filter=testPostRegisterDuplicate
+        // ./vendor/bin/phpunit test/Controllers/UserControllerTest.php --filter=testLogout
         private UserController $userController;
         private UserRepository $userRepository;
+        private SessionRepository $sessionRepository;
         
         public function setUp(): void
         {
             $this->userController = New UserController();
             $this->userRepository = new UserRepositoryImpl(DatabaseApp::getConnection());
+            $this->sessionRepository = new SessionRepositoryImpl(DatabaseApp::getConnection());
             $this->userRepository->deleteAll();
+            $this->sessionRepository->deleteAll();
             putenv("mode=test");
         }
     
@@ -108,8 +114,31 @@ namespace Arifin\PHP\test\MVC\Controllers{
             $_POST['password'] = 'ariifn';
             $this->userController->postLogin();
     
-            // // header('Location : /');
-            // $this->expectOutputRegex("[]");
+            $this->expectOutputRegex("[]");
+        }
+
+        public function testLogout(): void
+        {
+            $user = new User();
+            $user->id = rand(1,3);
+            $user->name = "arifin";
+            $user->password = "password";
+            
+            $session = new Session();
+            $session->id = rand(1,3);
+            $session->userId = $user->id;
+            
+            $this->userRepository->save($user);
+            $result = $this->userRepository->findById($user->id);
+            $this->sessionRepository->save($session);
+            $resultSession = $this->sessionRepository->findById($session->id);
+            
+            $this->assertEquals($user->id, $result->id);
+            $this->assertEquals($session->id, $resultSession->id);
+            
+            $this->sessionRepository->deleteById($session->id);
+            $resultSession = $this->sessionRepository->findById($session->id);
+            $this->assertNull($resultSession);
         }
     }
     

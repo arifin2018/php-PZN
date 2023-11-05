@@ -20,21 +20,5 @@ router::add('GET','/users/register', UserController::class, 'register');
 router::add('POST','/users/register', UserController::class, 'postRegister');
 router::add('GET','/users/login', UserController::class, 'login');
 router::add('POST','/users/login', UserController::class, 'postLogin');
+router::add('GET','/users/logout', UserController::class, 'logout');
 router::run();
-
-?>
-<!-- 
-<html>
-    <table>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    <?php foreach ($_SERVER as $key => $value) { ?>
-    <tr>
-        <td><?= $key ?></td>
-        <td><?= $value ?></td>
-    </tr>
-    <?php } ?>
-    </table>
-</html> -->
