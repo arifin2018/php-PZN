@@ -15,11 +15,8 @@ class SessionRepositoryImpl implements SessionRepository{
     public function save(Session $session): Session{
         $statment = $this->pdo->prepare("insert into sessions(id,user_id) values(?,?)");
         $statment->execute([$session->id, $session->userId]);
-        try {
-            return new Session;
-        }finally {
-            $statment->closeCursor();
-        }
+        $statment->closeCursor();
+        return new Session;
     }
     public function findById(int $id): ?Session{
         $statment = $this->pdo->prepare("select id, user_id from sessions where id = ?");

@@ -3,6 +3,6 @@
 namespace Arifin\PHP\MVC\Domain;
 class Session
 {
-    public string $id;
+    public int $id;
     public string $userId;
 }
