@@ -27,16 +27,15 @@ class Router{
 
         $method = $_SERVER['REQUEST_METHOD'];
 
-
         foreach (self::$routes as $key => $routes) {
             $pattern = "#^". $routes['path'] ."$#";
             // if ($path == $routes['path'] && $method == $routes['method']) {
-            if (preg_match($pattern, $path, $route) && $method == $routes['method']) {
-
+                if (preg_match($pattern, $path, $route) && $method == $routes['method']) {
+                    
                 foreach ($routes['middleware'] as $keyiddleware => $middleware) {
                     if ($middleware != []) {
                         $classMiddleware = new $middleware;
-                        $classMiddleware->before();
+                        $classMiddleware->before($routes['path']);
                     }
                 }
 

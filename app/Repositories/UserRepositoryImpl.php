@@ -25,6 +25,17 @@ class UserRepositoryImpl implements UserRepository{
         return $user;
     }
 
+    public function update(User $user): User
+    {
+        $statment = $this->connection->prepare("UPDATE users SET id=:id, name=:name, password=:password WHERE id=:id");
+        $statment->execute([
+            'id' => $user->id,
+            'name'=>$user->name,
+            'password'=>password_hash($user->password, PASSWORD_BCRYPT),
+        ]);
+        return $user;
+    }
+
     public function findById(int $id): ?User
     {
         $statment = $this->connection->prepare("select id, name, password from users where id = ?");

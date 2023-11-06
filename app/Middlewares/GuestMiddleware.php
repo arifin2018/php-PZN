@@ -9,7 +9,7 @@ use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
 use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
 use Arifin\PHP\MVC\Services\SessionService;
 
-class AuthMiddleware implements Middleware{
+class GuestMiddleware implements Middleware{
     private SessionService $sessionService;
     public function __construct()
     {
@@ -22,15 +22,10 @@ class AuthMiddleware implements Middleware{
     {
         $currentUser = $this->sessionService->current();
         if ($currentUser == null) {
-            if ($_SERVER['PATH_INFO'] != '/users/login') {
-                Controllers::redirect('/users/login');
-            }
-        }else{
-            if ($_SERVER['PATH_INFO'] == '/users/login') {
-                Controllers::redirect('/');
-            }
             $next;
             // Controllers::redirect();
+        }else{
+            Controllers::redirect('/');
         }
     }
 }
