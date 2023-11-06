@@ -8,4 +8,6 @@ interface UserRepository{
     public function save(User $user): User;
     public function findById(int $id): ?User;
     public function deleteAll(): void;
+
+    public function update(User $user): User;
 }

@@ -9,7 +9,7 @@ use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
 use PHPUnit\Framework\TestCase;
 
 class UserRepositoriesTest extends TestCase{
-
+    // ./vendor/bin/phpunit test/Repository/UserRepositoriesTest.php --filter=testUpdateUser
     private UserRepository $userRepository;
 
     public function setUp(): void
@@ -37,6 +37,20 @@ class UserRepositoriesTest extends TestCase{
     {
         $findUser = $this->userRepository->findById(1);
         $this->assertNull($findUser);
+    }
+
+    public function testUpdateUser(): void
+    {
+        $user = new User();
+        $user->id = 1;
+        $user->name = 'arifin';
+        $user->password = 'password';
+        $this->userRepository->save($user);
+
+        $user->name = 'ar';
+        $this->userRepository->update($user);
+        $findUser = $this->userRepository->findById(1);
+        $this->assertEquals($user->name, $findUser->name);
     }
 
 }
