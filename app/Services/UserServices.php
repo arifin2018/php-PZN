@@ -120,8 +120,7 @@ class UserServices{
             if ($user == null) {
                 throw new Exception("user not found");
             }
-            
-            if (!password_verify($user->password, $userPasswordRequest->oldPassword)) {
+            if (!password_verify($userPasswordRequest->oldPassword, $user->password)) {
                 throw new Exception("a password wrong");
             }
 

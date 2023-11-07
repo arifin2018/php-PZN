@@ -6,6 +6,7 @@ use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Domain\User;
 use Arifin\PHP\MVC\Model\UserLoginRequest;
 use Arifin\PHP\MVC\Model\UserLoginResponse;
+use Arifin\PHP\MVC\Model\UserPasswordRequest;
 use Arifin\PHP\MVC\Model\UserProfileUpdateRequest;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
 use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
@@ -15,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class UserServiceTest extends TestCase{
     // ./vendor/bin/phpunit test/Services/UserServiceTest.php
+    // ./vendor/bin/phpunit test/Services/UserServiceTest.php --filter=
 
     private UserServices $userServices;
     private UserRepositoryImpl $userRepositoryImpl;
@@ -84,5 +86,22 @@ class UserServiceTest extends TestCase{
         $request->name="";
         $request->password = "";
         $this->userServices->updateProfile($request);
+    }
+
+    public function testUpdatePassword(): void
+    {
+        $user = new User();
+        $user->id = 1;
+        $user->name = 'arifins';
+        $user->password = 'password';
+        $this->userRepositoryImpl->save($user);
+
+        $request = new UserPasswordRequest();
+        $request->id = 1;
+        $request->newPassword = 'arifin';
+        $request->oldPassword = 'password';
+
+        $result = $this->userServices->updatePassword($request);
+        $this->assertEquals($result->user->id, $request->id);
     }
 }
