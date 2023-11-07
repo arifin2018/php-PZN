@@ -5,6 +5,7 @@ namespace Arifin\PHP\MVC\controllers;
 use Arifin\PHP\MVC\Config\Database;
 use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Model\UserLoginRequest;
+use Arifin\PHP\MVC\Model\UserPasswordRequest;
 use Arifin\PHP\MVC\Model\UserProfileUpdateRequest;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
 use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
@@ -111,5 +112,35 @@ class UserController extends Controllers{
             Controllers::view('user/profile',$data);
         }
 
+    }
+
+    public function updatePassword(): void
+    {
+        $user = $this->sessionService->current();
+        $data =[
+            "title"=>"update user password",
+            'id'=>$user->id,
+        ];
+        Controllers::view('user/password',$data);
+    }
+
+    public function postUpdatePassword(): void
+    {
+        $user = $this->sessionService->current();
+        $request = new UserPasswordRequest();
+        $request->id = $user->id;
+        $request->newPassword = $_POST['oldPassword']; 
+        $request->oldPassword = $_POST['newPassword'];
+        try {
+            $this->userService->updatePassword($request);
+            Controllers::redirect('/');
+        } catch (Exception $e) {
+            $data = [
+                "title"=>"update user password",
+                "error"=>$e->getMessage(),
+                'id'=>$user->id,
+            ];
+            Controllers::view('user/password',$data);
+        }
     }
 }
