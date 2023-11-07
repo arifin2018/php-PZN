@@ -7,6 +7,8 @@ use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Domain\User;
 use Arifin\PHP\MVC\Model\UserLoginRequest;
 use Arifin\PHP\MVC\Model\UserLoginResponse;
+use Arifin\PHP\MVC\Model\UserPasswordRequest;
+use Arifin\PHP\MVC\Model\UserPasswordResponse;
 use Arifin\PHP\MVC\Model\UserProfileUpdateRequest;
 use Arifin\PHP\MVC\Model\UserProfileUpdateResponse;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
@@ -106,6 +108,40 @@ class UserServices{
     {
         if ($request->id == null || $request->name == null || $request->password == null|| trim($request->id)== ""|| trim($request->name)== "" || trim($request->password) == "") {
             throw new Exception("request id name password can't be null");
+        }
+    }
+
+    public function updatePassword(UserPasswordRequest $userPasswordRequest): UserPasswordResponse
+    {
+        $this->validationUpdatePassword($userPasswordRequest);
+        try {
+            DatabaseApp::beginTrasanction();
+            $user = $this->userRepository->findById($userPasswordRequest->id);
+            if ($user == null) {
+                throw new Exception("user not found");
+            }
+            
+            if (!password_verify($user->password, $userPasswordRequest->oldPassword)) {
+                throw new Exception("a password wrong");
+            }
+
+            $user->password = $userPasswordRequest->newPassword;
+            $this->userRepository->update($user);
+            DatabaseApp::commitTransaction();
+
+            $response = new UserPasswordResponse();
+            $response->user = $user;
+            return $response;
+        } catch (Exception $e) {
+            DatabaseApp::rollbackTransaction();
+            throw new Exception($e->getMessage(), 1);
+        }
+    }
+
+    public function validationUpdatePassword(UserPasswordRequest $userPasswordRequest): void
+    {
+        if ($userPasswordRequest->id == null || $userPasswordRequest->newPassword == null || $userPasswordRequest->oldPassword == null) {
+            throw new Exception("request id newPassword oldPassword can't be null");
         }
     }
 }
