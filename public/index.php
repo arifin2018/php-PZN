@@ -23,4 +23,6 @@ router::add('POST','/users/register', UserController::class, 'postRegister',[Gue
 router::add('GET','/users/login', UserController::class, 'login',[AuthMiddleware::class]);
 router::add('POST','/users/login', UserController::class, 'postLogin',[AuthMiddleware::class]);
 router::add('GET','/users/logout', UserController::class, 'logout',[AuthMiddleware::class]);
+router::add('GET','/users/profile', UserController::class, 'updateProfile',[AuthMiddleware::class]);
+router::add('POST','/users/profile', UserController::class, 'postUpdateProfile',[AuthMiddleware::class]);
 router::run();

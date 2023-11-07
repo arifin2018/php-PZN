@@ -10,6 +10,7 @@ namespace Arifin\PHP\test\MVC\Controllers{
     use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
     use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
     use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
+    use Arifin\PHP\MVC\Services\SessionService;
     use PHPUnit\Framework\MockObject\MockObject;
     use PHPUnit\Framework\TestCase;
     
@@ -20,12 +21,14 @@ namespace Arifin\PHP\test\MVC\Controllers{
         private UserController $userController;
         private UserRepository $userRepository;
         private SessionRepository $sessionRepository;
+        private SessionService $sessionService;
         
         public function setUp(): void
         {
             $this->userController = New UserController();
             $this->userRepository = new UserRepositoryImpl(DatabaseApp::getConnection());
             $this->sessionRepository = new SessionRepositoryImpl(DatabaseApp::getConnection());
+            $this->sessionService = new SessionService($this->sessionRepository, $this->userRepository);
             $this->userRepository->deleteAll();
             $this->sessionRepository->deleteAll();
             putenv("mode=test");
@@ -140,6 +143,42 @@ namespace Arifin\PHP\test\MVC\Controllers{
             $resultSession = $this->sessionRepository->findById($session->id);
             $this->assertNull($resultSession);
         }
+
+        public function testUpdateProfile(): void
+        {
+            $user = new User();
+            $user->id = 1;
+            $user->name = 'arifin ganteng';
+            $user->password = 'arifin';
+            $this->userRepository->save($user);
+
+            $session = new Session();
+            $session->id = 1;
+            $session->userId = $user->id;
+            $this->sessionRepository->save($session);
+            $_COOKIE[SessionService::$cookieName] = $session->id;
+
+            $this->sessionService->current();
+            $this->userController->updateProfile();
+            $this->expectOutputRegex("[arifin ganteng]");
+            $this->expectOutputRegex("[Profile]");
+        }
+        public function testPostUpdateProfile(): void
+        {
+            $user = new User();
+                $user->id = 1;
+                $user->name = 'arifin ganteng';
+                $user->password = 'arifin';
+                $this->userRepository->save($user);
+
+                $session = new Session();
+                $session->id = 1;
+                $session->userId = $user->id;
+                $this->sessionRepository->save($session);
+                $_COOKIE[SessionService::$cookieName] = $session->id;
+                $this->sessionService->current();
+                $this->userController->postUpdateProfile();
+                $this->expectOutputRegex("[]");
+        }
     }
-    
 }

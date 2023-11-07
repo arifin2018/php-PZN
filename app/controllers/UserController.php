@@ -5,6 +5,7 @@ namespace Arifin\PHP\MVC\controllers;
 use Arifin\PHP\MVC\Config\Database;
 use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Model\UserLoginRequest;
+use Arifin\PHP\MVC\Model\UserProfileUpdateRequest;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
 use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
 use Arifin\PHP\MVC\Repositories\UserRepositoryImpl;
@@ -76,5 +77,39 @@ class UserController extends Controllers{
     {
         $this->sessionService->destroy();
         $this->redirect('/');
+    }
+
+    public function updateProfile(): void
+    {
+        $user = $this->sessionService->current();
+        $data =[
+            "title"=>"update user profile",
+            'id'=>$user->id,
+            'name'=>$user->name
+        ];
+        Controllers::view('user/profile',$data);
+    }
+
+    public function postUpdateProfile(): void
+    {
+        $user = $this->sessionService->current();
+        $request = new UserProfileUpdateRequest();
+        $request->id = $user->id;
+        $request->name = $_POST['name'];
+        $request->password = $user->password;
+
+        try {
+            $this->userService->updateProfile($request);
+            $this->redirect('/');
+        } catch (\Throwable $e) {
+            $data = [
+                "title"=>"update user profile",
+                'id'=>$user->id,
+                'name'=>$user->name,
+                'error'=> $e->getMessage()
+            ];
+            Controllers::view('user/profile',$data);
+        }
+
     }
 }
