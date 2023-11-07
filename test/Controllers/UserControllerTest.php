@@ -6,6 +6,7 @@ namespace Arifin\PHP\test\MVC\Controllers{
     use Arifin\PHP\MVC\controllers\UserController;
     use Arifin\PHP\MVC\Domain\Session;
     use Arifin\PHP\MVC\Domain\User;
+    use Arifin\PHP\MVC\Model\UserPasswordRequest;
     use Arifin\PHP\MVC\Repositories\Implement\SessionRepository;
     use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
     use Arifin\PHP\MVC\Repositories\SessionRepositoryImpl;
@@ -166,19 +167,62 @@ namespace Arifin\PHP\test\MVC\Controllers{
         public function testPostUpdateProfile(): void
         {
             $user = new User();
-                $user->id = 1;
-                $user->name = 'arifin ganteng';
-                $user->password = 'arifin';
-                $this->userRepository->save($user);
+            $user->id = 1;
+            $user->name = 'arifin ganteng';
+            $user->password = 'arifin';
+            $this->userRepository->save($user);
 
-                $session = new Session();
-                $session->id = 1;
-                $session->userId = $user->id;
-                $this->sessionRepository->save($session);
-                $_COOKIE[SessionService::$cookieName] = $session->id;
-                $this->sessionService->current();
-                $this->userController->postUpdateProfile();
-                $this->expectOutputRegex("[]");
+            $session = new Session();
+            $session->id = 1;
+            $session->userId = $user->id;
+            $this->sessionRepository->save($session);
+            $_COOKIE[SessionService::$cookieName] = $session->id;
+            $this->sessionService->current();
+            $this->userController->postUpdateProfile();
+            $this->expectOutputRegex("[]");
+        }
+
+        public function testUpdatePassword(): void
+        {
+            $user = new User();
+            $user->id = 3;
+            $user->name = 'azriel';
+            $user->password = 'password';
+
+            $this->userRepository->save($user);
+
+            $session = new Session();
+            $session->id = 3;
+            $session->userId = $user->id;
+            $this->sessionRepository->save($session);
+
+            $_COOKIE[SessionService::$cookieName] = $session->id;
+
+            $this->userController->updatePassword();
+            $this->expectOutputRegex("[$user->id]");
+        }
+
+        public function testPostUpdatePassword(): void
+        {
+            $user = new User();
+            $user->id = 3;
+            $user->name = 'azriel';
+            $user->password = 'password';
+            $this->userRepository->save($user);
+
+            $session = new Session();
+            $session->id = 3;
+            $session->userId = $user->id;
+            $this->sessionRepository->save($session);
+
+            $_COOKIE[SessionService::$cookieName] = $session->id;
+
+            $userPasswordRequest = new UserPasswordRequest();
+            $userPasswordRequest->id = $user->id;
+            $userPasswordRequest->newPassword = 'arifin';
+            $userPasswordRequest->oldPassword = 'password';
+            $this->userController->postUpdatePassword();
+            $this->expectOutputRegex("[]");
         }
     }
 }
