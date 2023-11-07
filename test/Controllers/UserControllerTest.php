@@ -180,6 +180,7 @@ namespace Arifin\PHP\test\MVC\Controllers{
             $this->sessionService->current();
             $this->userController->postUpdateProfile();
             $this->expectOutputRegex("[]");
+
         }
 
         public function testUpdatePassword(): void
@@ -207,7 +208,7 @@ namespace Arifin\PHP\test\MVC\Controllers{
             $user = new User();
             $user->id = 3;
             $user->name = 'azriel';
-            $user->password = 'password';
+            $user->password = 'arifin';
             $this->userRepository->save($user);
 
             $session = new Session();
@@ -216,13 +217,15 @@ namespace Arifin\PHP\test\MVC\Controllers{
             $this->sessionRepository->save($session);
 
             $_COOKIE[SessionService::$cookieName] = $session->id;
-
             $userPasswordRequest = new UserPasswordRequest();
             $userPasswordRequest->id = $user->id;
-            $userPasswordRequest->newPassword = 'arifin';
-            $userPasswordRequest->oldPassword = 'password';
+            $_POST['oldPassword'] = 'arifin';
+            $_POST['newPassword'] ='arifin';
             $this->userController->postUpdatePassword();
             $this->expectOutputRegex("[]");
+
+            $result = $this->userRepository->findById($user->id);
+            $this->assertTrue(password_verify($_POST['newPassword'], $result->password));
         }
     }
 }
