@@ -2,10 +2,13 @@
 
 namespace Arifin\PHP\MVC\Services;
 
+use Arifin\PHP\MVC\Config\Database;
 use Arifin\PHP\MVC\Config\DatabaseApp;
 use Arifin\PHP\MVC\Domain\User;
 use Arifin\PHP\MVC\Model\UserLoginRequest;
 use Arifin\PHP\MVC\Model\UserLoginResponse;
+use Arifin\PHP\MVC\Model\UserProfileUpdateRequest;
+use Arifin\PHP\MVC\Model\UserProfileUpdateResponse;
 use Arifin\PHP\MVC\Model\UserRegisterRequest;
 use Arifin\PHP\MVC\Model\UserRegisterResponse;
 use Arifin\PHP\MVC\Repositories\Implement\UserRepository;
@@ -76,6 +79,33 @@ class UserServices{
         }
     }
 
-    
+    public function updateProfile(UserProfileUpdateRequest $userProfileUpdateRequest): UserProfileUpdateResponse
+    {
+        $this->validationUserProfileUpdateRequest($userProfileUpdateRequest);
+        try {
+            DatabaseApp::beginTrasanction();
+            $user = $this->userRepository->findById($userProfileUpdateRequest->id);
+            if ($user == null) {
+                throw new Exception("User is not found");
+            }
 
+            $user->name = $userProfileUpdateRequest->name;
+            $this->userRepository->update($user);
+            DatabaseApp::commitTransaction();
+
+            $response = new UserProfileUpdateResponse();
+            $response->user = $user;
+            return $response;
+        } catch (Exception $e) {
+            DatabaseApp::rollbackTransaction();
+            throw $e;
+        }
+    }
+
+    public function validationUserProfileUpdateRequest(UserProfileUpdateRequest $request): void
+    {
+        if ($request->id == null || $request->name == null || $request->password == null|| trim($request->id)== ""|| trim($request->name)== "" || trim($request->password) == "") {
+            throw new Exception("request id name password can't be null");
+        }
+    }
 }
