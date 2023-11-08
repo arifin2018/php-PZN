@@ -4,6 +4,6 @@ namespace Arifin\PHP\MVC\Model;
 
 final class UserLoginRequest
 {
-    public int $id;
-    public string $password;
+    public ?int $id = null;
+    public ?string $password = null;
 }

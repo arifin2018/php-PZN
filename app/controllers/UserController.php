@@ -40,7 +40,7 @@ class UserController extends Controllers{
     public function postRegister(): void
     {
         $request = new UserRegisterRequest();
-        $request->id = $_POST['id'];
+        $request->id = (int)$_POST['id'];
         $request->name = $_POST['name'];
         $request->password = $_POST['password'];
         $data = [
@@ -62,8 +62,8 @@ class UserController extends Controllers{
 
     public function postLogin(): void {
         $request = new UserLoginRequest();
-        $request->id = $_POST['id'];
-        $request->password = $_POST['password'];
+        $request->id = (int)$_POST['id'] ?? null;
+        $request->password = $_POST['password'] ?? null;
         try {
             $response = $this->userService->login($request);
             $this->sessionService->create($response->user->id);
