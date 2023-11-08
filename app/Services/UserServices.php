@@ -30,8 +30,8 @@ class UserServices{
         $this->validationUserRegisterRequest($request);
         try {
             DatabaseApp::beginTrasanction();
-            $user = $this->userRepository->findById($request->id);
-            if ($user != null) {
+            $userData = $this->userRepository->findById($request->id);
+            if ($userData != null) {
                 throw new Exception("user already exist", 1);
             }
             $user = new User();
@@ -45,7 +45,7 @@ class UserServices{
             DatabaseApp::rollbackTransaction();
             throw $e;
         }
-
+        $user = $this->userRepository->findById($request->id);
         $response = new UserRegisterResponse();
         $response->user = $user;
         return $response;

@@ -30,7 +30,7 @@ class UserRepositoriesTest extends TestCase{
 
         $this->assertEquals($user->id, $result->id);
         $this->assertEquals($user->name, $result->name);
-        $this->assertEquals($user->password, $result->password);
+        $this->assertTrue(password_verify($user->password, $result->password));
     }
 
     public function testFindByIdNotFound(): void
